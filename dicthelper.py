@@ -2,31 +2,34 @@
 
 
 
-
+import pprint
 import string
 import subprocess
 import os
 import json
+import urllib.request
+import urllib.error
+from xml.etree import ElementTree
+
 
 local_dict_path_wordforms = './data/wordforms.json'
 local_dict_path_tags = './data/tags.json'
 local_dict_path_edict = './data/edict'
 edict_files = ['part1.json', 'part2.json', 'part3.json', 'part4.json']
-get_word_command = 'xclip -selection primary -o'
-http://dict.youdao.com/fsearch?client=deskdict&keyfrom=chrome.extension&pos=-1&doctype=xml&xmlVersion=3.2&dogVersion=1.0&vendor=unknown&appVer=3.1.17.4208&le=eng&q=good
-youdao_API = 'http://openapi.youdao.com/api'
-
-http://openapi.youdao.com/api?q=good&from=EN&to=zh_CHS&appKey=R27I3ZwEH6w4PMGEfnHDJVKW2Qmr2m4L&salt=2&sign=1995882C5064805BC30A39829B779D7B
+GET_WORD_COMMAND = 'xclip -selection primary -o'
+YOUDAO_API = 'http://dict.youdao.com/fsearch?client=deskdict&keyfrom=chrome.extension&pos=-1&doctype=xml&xmlVersion=3.2&dogVersion=1.0&vendor=unknown&appVer=3.1.17.4208&le=eng&q='
 
 def get_selected_word():
+    """get seleced word from screen"""
     word = subprocess.Popen(
-                get_word_command, 
+                GET_WORD_COMMAND, 
                 shell=True, 
                 stdout=subprocess.PIPE).stdout.read()
     word = word.decode('utf-8')
     return word.strip(string.punctuation)
 
 def search_local_dictionary(word):
+    """search in local dictionary"""
     search_words = [word]
     word_lowercase = word.lower()
     if word_lowercase not in search_words:
@@ -57,17 +60,36 @@ def search_local_dictionary(word):
             
 
 def search_online_dictionary(word):
-
-
-    pass
+    """search in online dictionary"""
+    url = YOUDAO_API + word
+    req = urllib.request.Request(url)
+    try:
+        with urllib.request.urlopen(req) as res:
+            html = res.read().decode('utf-8')
+    except urllib.error.HTTPError:
+        html = ''
+        return None
+    if html:
+        tree = ElementTree.fromstring(html)
+        try:
+            expression = tree.find('return-phrase').text
+            us_phonetic_symbol = tree.find('us-phonetic-symbol').text
+            glossary = []
+            for node in tree.iter('content'):
+                glossary.append(node.text)
+        except AttributeError:
+            return None
+        result = [expression, us_phonetic_symbol, glossary]
+        return result
 
 def search(word):
+    """search word in local and online dictionary"""
 
     local_search_res = search_local_dictionary(word)
-    youdao_search_res = search_online_dictionary(word)
+    online_search_res = search_online_dictionary(word)
     result = {
         'local_dict':local_search_res, 
-        'youdao':youdao_search_res
+        'online_dict':online_search_res
     }
     return result
 
@@ -83,7 +105,7 @@ def helper():
 
 def test():
     word = get_selected_word()
-    result = search_local_dictionary(word)
+    result = search(word)
     print('Input:', word)
     print('result:', result)
 
