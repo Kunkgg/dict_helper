@@ -1,0 +1,6 @@
+.vscode
+*.swp
+Pipfile
+*.py[cod]
+__pycache__/
+*$py.class
