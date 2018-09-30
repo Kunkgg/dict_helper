@@ -73,7 +73,7 @@ def search_online_dictionary(word):
         tree = ElementTree.fromstring(html)
         try:
             expression = tree.find('return-phrase').text
-            us_phonetic_symbol = tree.find('us-phonetic-symbol').text
+            us_phonetic_symbol = '/' + tree.find('us-phonetic-symbol').text + '/'
             glossary = []
             for node in tree.iter('content'):
                 glossary.append(node.text)
@@ -84,12 +84,9 @@ def search_online_dictionary(word):
 
 def search(word):
     """search word in local and online dictionary"""
-
-    local_search_res = search_local_dictionary(word)
-    online_search_res = search_online_dictionary(word)
     result = {
-        'local_dict':local_search_res, 
-        'online_dict':online_search_res
+        'local':search_local_dictionary(word), 
+        'online':search_online_dictionary(word)
     }
     return result
 
