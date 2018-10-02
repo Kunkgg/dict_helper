@@ -1,5 +1,6 @@
-
-answer = {'local': [['find', '/fa͟ɪnd/', '', ['v.发现…的所在<br> If you <b>find</b> someone or something, you see them or learn where they are. ', 'v.找到；寻得；获得<br> If you <b>find</b> something that you need or want, you succeed inachieving or obtaining it. ', 'v.发现…存在(于)<br> If something <b>is found</b> in a particular place or thing, it exists in that place. ', 'v.发现…处于某种状态；遇见；碰见<br> If you <b>find</b> someone or something in a particular situation, they are in that situation when you see them or come into contact with them. ', 'v.(不知不觉中)发现(自己在做某事)<br> If you <b>find</b> <b>yourself</b> doing something, you are doing it without deciding or intending to do it. ', 'v.(某一时刻或事件)把…置于某种情形中<br> If a time or event <b>finds</b> you in a particular situation, you are in that situation at the time mentioned or when the event occurs. ', 'v.发觉，认识到(某事属实)<br> If you <b>find</b> that something is the case, you become aware of it or realize that it is the case. ', 'v.裁决；判决；判定<br> When a court or jury decides that a person on trial is guilty or innocent, you say that the person <b>has been found</b> guilty or not guilty. ', 'v.觉得；认为<br> You can use <b>find</b> to express your reaction to someone or something. ', 'v.感受到(愉快、安慰等情感)<br> If you <b>find</b> a feeling such as pleasure or comfort <b>in</b> a particular thing or activity, you experience the feeling mentioned as a result of this thing or activity. ', 'v.找出，挤出(时间或金钱)<br> Ifyou <b>find</b> the time or money <b>to</b> do something, you succeed in making or obtaining enough time or money to do it. ', 'n.finding<br><b class="text_blue"></b>；<b class="text_blue"></b>； If you describe someone or something that has been discovered as a <b>find</b>, you mean that they are valuable, interesting, good, or useful. ', 'phrase.找到正确的路(去某处)；成功地到达<br> If you <b>find</b> your <b>way</b> somewhere, you successfully get there by choosingthe right way to go. ', 'phrase.(尤指某物偶然)去到(某处)<br> If something <b>finds</b> its <b>way</b> somewhere, it comes to that place, especially by chance. ', '<br><br/> to <b>find fault with</b><b class="text_blue"></b>； ', '<br>. to <b>find</b> one\'s <b>feet</b><b class="text_blue"></b>； ', 'v.(尤指特意通过努力)发现，找出，查明<br> If you <b>find</b> something <b>out</b>, you learn something that you did not already know, especially by making a deliberate effort to do so. ', 'v.查出…的不轨行为；揭发出<br> If you <b>find</b> someone <b>out</b>, you discover that they have been doing something dishonest. ']]], 'online': ['find', '/faɪnd/', ['n. 发现', 'vi. 裁决', 'vt. 查找，找到；发现；认为；感到；获得', 'n. (Find)人名；(丹)芬']]}
+"""
+this module implements GUI
+"""
 import tkinter
 from tkinter import *
 from tkinter import ttk
@@ -7,10 +8,9 @@ from tkinter import ttk
 from connectoAnki import addNote
 from connectoAnki import data_add_note
 
+# format string
 LOCAL_FIRST_LINE = '{}\t{}'
 ONLINE_FIRST_LINE = 'YouDao\n\n{}\t{}'
-
-
 
 def on_configure(event):
     # update scrollregion after starting 'mainloop'
@@ -44,16 +44,17 @@ mainframe.rowconfigure(0, weight=1)
 
 canvas.create_window((0,0), window=mainframe, anchor='nw')
 
+# grid row
 row = IntVar(value=1)
 
 def newNote(note):
-    data_add_note["params"]["note"]['fields']["正面"] = note['front_card']
-    data_add_note["params"]["note"]['fields']["背面"] = note['back_card']
-    # data_add_note["params"]["note"]['fields']["Back"] = note['back_card']
-    # data_add_note["params"]["note"]['fields']["Front"] = note['front_card']
+    """new note"""
+    data_add_note['params']['note']['fields']['正面'] = note['front_card']
+    data_add_note['params']['note']['fields']['背面'] = note['back_card']
     return data_add_note
 
 def send_all_glossary(first_line, glossary):
+    """send all glossarys to Anki"""
     note = note_all_glossary(first_line, glossary)
     note = newNote(note)
     # print(note)
@@ -61,6 +62,7 @@ def send_all_glossary(first_line, glossary):
     
 
 def send_single_glossary(first_line, glossary):
+    """send a speical glossary to Anki"""
     note = note_single_glossary(first_line, glossary)
     note = newNote(note)
     # print(note)
@@ -68,6 +70,7 @@ def send_single_glossary(first_line, glossary):
     
 
 def note_all_glossary(first_line, answer):
+    """record all glossarys"""
     return {
         'front_card': first_line,
         'back_card': answer[-1]
@@ -75,6 +78,7 @@ def note_all_glossary(first_line, answer):
     
 
 def note_single_glossary(first_line, glossary):
+    """record single glossarys"""
     return {
         'front_card': first_line,
         'back_card': glossary
@@ -82,6 +86,7 @@ def note_single_glossary(first_line, glossary):
 
 
 def make_item(first_line, glossary):
+    """make glossary label and accordding Anki button"""
     ttk.Label(
         mainframe, 
         text=glossary, 
@@ -92,7 +97,8 @@ def make_item(first_line, glossary):
         command=lambda: send_single_glossary(first_line, glossary)
         ).grid(column=2, row=row.get(), sticky=E)
 
-def display(answer):    
+def display(answer): 
+    """forge GUI"""
 
     local_answers = answer.get('local')
     online_answer = answer.get('online')
@@ -114,8 +120,9 @@ def display(answer):
                     ).grid(column=2, row=row.get(), sticky=E)
             for glossary in local_answer[-1]:
                 row.set(row.get()+1)
-                local_first_line_sigle = local_first_line + '\t\t' + str(row.get())
-                make_item(local_first_line_sigle, glossary)
+                # local_first_line_sigle = local_first_line + '\t\t' + str(row.get())
+                # make_item(local_first_line_sigle, glossary)
+                make_item(local_first_line, glossary)
     if online_answer:
         row.set(row.get()+1)
         online_first_line = ONLINE_FIRST_LINE.format(online_answer[0],online_answer[1])
@@ -132,17 +139,12 @@ def display(answer):
         
         for glossary in online_answer[-1]:
             row.set(row.get()+1)
-            online_first_line_sigle = online_first_line + '\t\t' + str(row.get())
-            make_item(online_first_line_sigle, glossary)
-
+            # online_first_line_sigle = online_first_line + '\t\t' + str(row.get())
+            # make_item(online_first_line_sigle, glossary)
+            make_item(online_first_line, glossary)
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)
 
     root.mainloop()
 
-def main():
-    display(answer)
-
-if __name__ == '__main__':
-    main()
 
