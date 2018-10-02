@@ -4,6 +4,9 @@ import tkinter
 from tkinter import *
 from tkinter import ttk
 
+from connectoAnki import addNote
+from connectoAnki import data_add_note
+
 LOCAL_FIRST_LINE = '{}\t{}'
 ONLINE_FIRST_LINE = 'YouDao\n\n{}\t{}'
 
@@ -43,15 +46,25 @@ canvas.create_window((0,0), window=mainframe, anchor='nw')
 
 row = IntVar(value=1)
 
+def newNote(note):
+    data_add_note["params"]["note"]['fields']["正面"] = note['front_card']
+    data_add_note["params"]["note"]['fields']["背面"] = note['back_card']
+    # data_add_note["params"]["note"]['fields']["Back"] = note['back_card']
+    # data_add_note["params"]["note"]['fields']["Front"] = note['front_card']
+    return data_add_note
 
 def send_all_glossary(first_line, glossary):
     note = note_all_glossary(first_line, glossary)
-    print(note)
+    note = newNote(note)
+    # print(note)
+    addNote(note)
     
 
 def send_single_glossary(first_line, glossary):
     note = note_single_glossary(first_line, glossary)
-    print(note)
+    note = newNote(note)
+    # print(note)
+    addNote(note)
     
 
 def note_all_glossary(first_line, answer):
@@ -101,7 +114,8 @@ def display(answer):
                     ).grid(column=2, row=row.get(), sticky=E)
             for glossary in local_answer[-1]:
                 row.set(row.get()+1)
-                make_item(local_first_line, glossary)
+                local_first_line_sigle = local_first_line + '\t\t' + str(row.get())
+                make_item(local_first_line_sigle, glossary)
     if online_answer:
         row.set(row.get()+1)
         online_first_line = ONLINE_FIRST_LINE.format(online_answer[0],online_answer[1])
@@ -118,7 +132,8 @@ def display(answer):
         
         for glossary in online_answer[-1]:
             row.set(row.get()+1)
-            make_item(online_first_line, glossary)
+            online_first_line_sigle = online_first_line + '\t\t' + str(row.get())
+            make_item(online_first_line_sigle, glossary)
 
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)

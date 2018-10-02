@@ -11,10 +11,13 @@ import urllib.request
 import urllib.error
 from xml.etree import ElementTree
 
+from display import display
 
-local_dict_path_wordforms = './data/wordforms.json'
-local_dict_path_tags = './data/tags.json'
-local_dict_path_edict = './data/edict'
+data_path, _ = os.path.abspath(__file__).rsplit('/',1)
+local_dict_path_wordforms = os.path.join(data_path, 'data/wordforms.json')
+local_dict_path_tags = os.path.join(data_path, 'data/tags.json')
+local_dict_path_edict = os.path.join(data_path, 'data/edict')
+
 edict_files = ['part1.json', 'part2.json', 'part3.json', 'part4.json']
 GET_WORD_COMMAND = 'xclip -selection primary -o'
 YOUDAO_API = 'http://dict.youdao.com/fsearch?client=deskdict&keyfrom=chrome.extension&pos=-1&doctype=xml&xmlVersion=3.2&dogVersion=1.0&vendor=unknown&appVer=3.1.17.4208&le=eng&q='
@@ -44,7 +47,7 @@ def search_local_dictionary(word):
                 )
     if wordforms_res:
         search_words.extend(wordforms_res)
-    print(search_words)
+    # print(search_words)
     result = []
     for word in search_words:
         for edict_file in edict_files:
@@ -90,10 +93,8 @@ def search(word):
     }
     return result
 
-def display(result):
-    pass
 
-def helper():
+def dict_helper():
     word = get_selected_word()
     if word:
         result = search(word)
@@ -108,7 +109,8 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    # test()
+    dict_helper()
 
 
 
