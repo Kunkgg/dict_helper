@@ -16,7 +16,8 @@
  - `git clone https://github.com/Kunkgg/dict_helper.git`
  - Set a keyboard shortcut in system keyboard shortcuts setting
     - command: `python3 /path/to/dict_helper.py`
- - replace your deckname and modlename in `connectoAnki.py` file
+ - replace your DECKNAME in `connectoAnki.py` file
+ - import the file `划词原句模板.apk` to your anki
  -  To make sure AnkiConnect working, you have to luanch anki client first
  -  After above items are ready. Select one word anywhere by mouse, then push the keyboard shortcut.
 
@@ -24,3 +25,4 @@
  - [AnkiConnect](https://foosoft.net/projects/anki-connect/)
  - [dae/ankidocs](https://github.com/dae/ankidocs)
  - [dae/anki](https://github.com/dae/anki)
+ - [老黄-划词原句模板](https://www.laohuang.net/20160817/anki-dict-helper-chrome-extension/)

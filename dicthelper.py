@@ -32,7 +32,7 @@ GET_WORD_COMMAND = 'xclip -selection primary -o'
 YOUDAO_API = 'http://dict.youdao.com/fsearch?client=deskdict&keyfrom=chrome.extension&pos=-1&doctype=xml&xmlVersion=3.2&dogVersion=1.0&vendor=unknown&appVer=3.1.17.4208&le=eng&q='
 
 def get_selected_word():
-    """get seleced word from screen
+    """get selected word from screen
     :return: selected_word
     :rtype: str
     """
@@ -131,7 +131,7 @@ def search(word):
     return result
 
 
-def dict_helper():
+def dicthelper():
     """entry"""
     word = get_selected_word()
     if word:
@@ -148,7 +148,7 @@ def test():
 
 if __name__ == '__main__':
     # test()
-    dict_helper()
+    dicthelper()
 
 
 

@@ -49,8 +49,9 @@ row = IntVar(value=1)
 
 def newNote(note):
     """new note"""
-    data_add_note['params']['note']['fields']['正面'] = note['front_card']
-    data_add_note['params']['note']['fields']['背面'] = note['back_card']
+    fields = data_add_note['params']['note']['fields'].keys()
+    for field in fields:
+        data_add_note['params']['note']['fields'][field] = note.get(field, '')
     return data_add_note
 
 def send_all_glossary(first_line, glossary):
@@ -67,21 +68,29 @@ def send_single_glossary(first_line, glossary):
     note = newNote(note)
     # print(note)
     addNote(note)
-    
+
+def _expAndreading(first_line):
+    if first_line.startswith('YouDao'):
+        first_line = first_line[8:]
+    return first_line.split('\t')
 
 def note_all_glossary(first_line, answer):
     """record all glossarys"""
+    exp, reading = _expAndreading(first_line)
     return {
-        'front_card': first_line,
-        'back_card': answer[-1]
+        'expression': exp,
+        'reading': reading,
+        'glossary': answer[-1]
     }
     
 
 def note_single_glossary(first_line, glossary):
     """record single glossarys"""
+    exp, reading = _expAndreading(first_line)
     return {
-        'front_card': first_line,
-        'back_card': glossary
+        'expression': exp,
+        'reading': reading,
+        'glossary': glossary
     }
 
 

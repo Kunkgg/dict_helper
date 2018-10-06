@@ -11,12 +11,15 @@ ANKICONNECT_VERSION = 6
 DECKNAME = "English growing"
 # DECKNAME = "Default"
 # model name
-MODELNAME = "基础(左对齐)"
+MODELNAME = "划词原句模板"
 # MODELNAME = "Basic"
 # tags
 TAGS = ["dict-helper"]
 
-data_add_note = {
+
+def notetemplate(modelname=MODELNAME):
+    """make a note template with speical modelname"""
+    data_add_note = {
     "action": "addNote",
     "version": ANKICONNECT_VERSION,
     "params": {
@@ -24,8 +27,8 @@ data_add_note = {
             "deckName": DECKNAME,
             "modelName": MODELNAME,
             "fields": {
-                "正面": "front content test",
-                "背面": "Update !back content test"
+                # "正面": "front content test",
+                # "背面": "Update !back content test"
                 # "Front": "front content test",
                 # "Back": "back content test"
             },
@@ -38,9 +41,14 @@ data_add_note = {
             #         "Front"
             #     ]
             # }
+            }
         }
     }
-}
+
+    for field in FIELDS:
+        data_add_note["params"]["note"]["fields"][field] = ''
+    return data_add_note
+
 
 data_updateNoteFields = {
         "action": "updateNoteFields",
@@ -63,9 +71,9 @@ def addNote(data_add_note):
     html = post(data_add_note)
     if html['error'] == 'cannot create note because it is a duplicate':
         Note = data_add_note['params']['note']
-        Note_front = Note['fields']['正面']
-        search_keyword = Note_front.split('/', 1)[0]
-        NoteId = findNote(search_keyword)['result']
+        field0 = Note['fields'][FIELDS[0]]
+        query = FIELDS[0] + ':' + field0
+        NoteId = findNote(query)['result']
         if len(NoteId) == 1:
             NoteId = NoteId[0]
             update_Note = {
@@ -78,12 +86,17 @@ def addNote(data_add_note):
             # print(html)
     return html
 
-def findNote(frontfeild):
+def findNote(query):
+    """find note with the query
+    :params:query: strtype: "key1:value1 key2:value2 ..."
+    :rtype:list
+    :return: noteIDs
+    """
     data_find_note = {
     "action": "findNotes",
     "version": ANKICONNECT_VERSION,
     "params": {
-        "query": frontfeild
+        "query": query
         }
     }
     return post(data_find_note)
@@ -98,3 +111,16 @@ def notesInfo(notesId):
         }
     }
     return post(data_notesInfo)
+
+def modelFieldNames(modelname=MODELNAME):
+    modelFieldNames = {
+    "action": "modelFieldNames",
+    "version": 6,
+    "params": {
+        "modelName": modelname
+        }
+    }
+    return post(modelFieldNames)['result']
+
+FIELDS = modelFieldNames()
+data_add_note = notetemplate()
