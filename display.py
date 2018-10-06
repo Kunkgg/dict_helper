@@ -20,6 +20,7 @@ def on_configure(event):
 # forge the root weight and entitle
 root = Tk()
 root.title("Dict Helper")
+# root.lift()
 
 # --- create canvas with scrollbar ---
 
@@ -153,7 +154,9 @@ def display(answer):
             make_item(online_first_line, glossary)
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)
-
+    # display position
+    positionRight = int(root.winfo_screenwidth()/2)
+    positionDown = 100
+    root.geometry("+{}+{}".format(positionRight, positionDown))
     root.mainloop()
-
 
