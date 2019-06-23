@@ -1,0 +1,14 @@
+
+{% macro dis_word(word) -%}
+        <p>{{ word.expression }}</p>
+        <p>{{ word.reading }}</p>
+        <p><a href="#">All</a></p>
+        <table>
+            {% for glossary_item in word.glossary %}
+            <tr>
+                <td>{{ glossary_item }}</td>
+                <td><a href="#">+</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+{%- endmacro %}

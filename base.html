@@ -1,0 +1,30 @@
+{% import '_macros.html' as macros %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dict Helper</title>
+</head>
+
+<body>
+    {% if result.local %}
+    <section>
+        <h3>{{ local_dictionary }}</h3>
+        {% for word in result.local %}
+        {{ macros.dis_word(word) }}
+        {% endfor %}
+    </section>
+    {% endif %}
+    {% if result.online %}
+    <section>
+        <h3>{{ online_dictionary }}</h3>
+        {{ macros.dis_word(result.online) }}
+    </section>
+    {% endif %}
+    {% if not(result.local or result.online)%}
+    <h3>Not Found!</h3>
+    {% endif %}
+</body>
+
+</html>

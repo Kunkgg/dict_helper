@@ -1,6 +1,6 @@
 .vscode
 *.swp
-Pipfile
+Pipfile.lock
 *.py[cod]
 __pycache__/
 *$py.class
