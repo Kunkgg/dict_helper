@@ -1,0 +1,25 @@
+{
+  "name": "dict_helper",
+  "version": "0.1.0",
+  "description": "A lightly script tool, it can translate selected word and display the result with electron GUI. It connects with Anki, record the query and result in Anki datebase.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kunkgg/dict_helper.git"
+  },
+  "keywords": [
+    "Anki"
+  ],
+  "author": "kung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kunkgg/dict_helper/issues"
+  },
+  "homepage": "https://github.com/Kunkgg/dict_helper#readme",
+  "devDependencies": {
+    "electron": "^5.0.5"
+  }
+}

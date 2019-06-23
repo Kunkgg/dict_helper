@@ -4,3 +4,5 @@ Pipfile
 *.py[cod]
 __pycache__/
 *$py.class
+package-lock.json
+node_modules/

@@ -18,7 +18,7 @@ from xml.etree import ElementTree
 
 from display import display
 
-### start:local dictinary file path ###
+### start:local dictinary(ENCN_Collins) file path ###
 data_path, _ = os.path.abspath(__file__).rsplit('/',1)
 local_dict_path_wordforms = os.path.join(data_path, 'data/wordforms.json')
 local_dict_path_tags = os.path.join(data_path, 'data/tags.json')
@@ -125,8 +125,8 @@ def search(word):
     save local and online result in a dict 
     """
     result = {
-        'local':search_local_dictionary(word), 
-        'online':search_online_dictionary(word)
+        'local': search_local_dictionary(word), 
+        'online': search_online_dictionary(word)
     }
     return result
 
@@ -135,8 +135,7 @@ def dicthelper():
     """entry"""
     word = get_selected_word()
     if word:
-        result = search(word)
-        display(result)
+        display(search(word))
 
 
 def test():
@@ -147,9 +146,5 @@ def test():
 
 
 if __name__ == '__main__':
-    # test()
-    dicthelper()
-
-
-
-
+    test()
+    # dicthelper()
