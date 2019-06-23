@@ -6,8 +6,6 @@ this module implements the dicthelper
  - store result into Anki with speical deckname and modlename 
 """
 
-
-import pprint
 import string
 import subprocess
 import os
@@ -15,6 +13,7 @@ import json
 import urllib.request
 import urllib.error
 from xml.etree import ElementTree
+from pprint import pprint
 
 from display import display
 
@@ -82,7 +81,10 @@ def search_local_dictionary(word):
             edict_part = json.loads(edict_part[0])
             index = edict_part['indices'].get(word, None)
             if index:
-                result.append(edict_part['defs'][index[0]])
+                res = edict_part['defs'][index[0]]
+                if len(res) == 4:
+                    del res[2]
+                result.append(res)
                 break
     return result
             
@@ -142,7 +144,8 @@ def test():
     word = get_selected_word()
     result = search(word)
     print('Input:', word)
-    print('result:', result)
+    print('result:')
+    pprint(result)
 
 
 if __name__ == '__main__':
