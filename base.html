@@ -5,9 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Dict Helper</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <main>
     {% if result.local %}
     <section>
         <h3>{{ local_dictionary }}</h3>
@@ -25,6 +27,8 @@
     {% if not(result.local or result.online)%}
     <h3>Not Found!</h3>
     {% endif %}
+    </main>
+    <script src="./renderer.js"></script>
 </body>
 
 </html>

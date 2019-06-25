@@ -1,14 +1,23 @@
-
 {% macro dis_word(word) -%}
-        <p>{{ word.expression }}</p>
-        <p>{{ word.reading }}</p>
-        <p><a href="#">All</a></p>
-        <table>
+    <div class="word">
+        <div class="word-header-line">
+            <div class="expr-reading">
+                <ul>
+                    <li class="expr">{{ word.expression }}</li>
+                    <li class="reading">{{ word.reading }}</li>
+                </ul>
+            </div>
+            <div class="link-all">
+                <a href="#">All+</a>
+            </div>
+        </div>
+        <div class="gloss-list">
             {% for glossary_item in word.glossary %}
-            <tr>
-                <td>{{ glossary_item }}</td>
-                <td><a href="#">+</a></td>
-            </tr>
+            <div class="gloss-one">
+                <p class="gloss">{{ glossary_item }}</p>
+                <p class="link-one"><a href="#">+</a></p>
+            </div>
             {% endfor %}
-        </table>
+        </div>
+    </div>
 {%- endmacro %}
