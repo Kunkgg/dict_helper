@@ -4,7 +4,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 TEMPLATE_PATH = '.'
 TEMPLATE_FILENAME = 'base.html'
-DIS_FILE = './index.html'
+DIS_FILE = '/home/gk07/mytools/dict_helper/index.html'
 
 LOCAL_DICTIONARY = 'ENCN_Collins'
 ONLINE_DICTIONARY = 'YouDao'

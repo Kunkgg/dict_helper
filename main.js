@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+const DIS_FILE = '/home/gk07/mytools/dict_helper/index.html';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -15,7 +16,7 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  win.loadFile('index.html')
+  win.loadFile(DIS_FILE);
 
   // Emitted when the window is closed.
   win.on('closed', () => {
