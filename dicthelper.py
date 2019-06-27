@@ -18,7 +18,7 @@ from collections import namedtuple
 
 from display import display
 
-# start:local dictinary(ENCN_Collins) file path ###
+# start:local dictionary(ENCN_Collins) file path ###
 root_dir, _ = os.path.abspath(__file__).rsplit('/', 1)
 local_dict_path_wordforms = os.path.join(root_dir, 'data/wordforms.json')
 local_dict_path_tags = os.path.join(root_dir, 'data/tags.json')
