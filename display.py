@@ -3,7 +3,6 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import os
 
-TEMPLATE_PATH = '.'
 TEMPLATE_FILENAME = 'base.html'
 
 dis_file = 'dict_helper-linux-x64/resources/app/index.html'
@@ -13,7 +12,7 @@ DIS_FILE_PATH = os.path.join(root_dir, dis_file)
 LOCAL_DICTIONARY = 'ENCN_Collins'
 ONLINE_DICTIONARY = 'YouDao'
 
-env = Environment(loader=FileSystemLoader(TEMPLATE_PATH))
+env = Environment(loader=FileSystemLoader(root_dir))
 template = env.get_template(TEMPLATE_FILENAME)
 
 
