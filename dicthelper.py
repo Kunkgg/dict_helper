@@ -19,10 +19,10 @@ from collections import namedtuple
 from display import display
 
 # start:local dictinary(ENCN_Collins) file path ###
-data_path, _ = os.path.abspath(__file__).rsplit('/', 1)
-local_dict_path_wordforms = os.path.join(data_path, 'data/wordforms.json')
-local_dict_path_tags = os.path.join(data_path, 'data/tags.json')
-local_dict_path_edict = os.path.join(data_path, 'data/edict')
+root_dir, _ = os.path.abspath(__file__).rsplit('/', 1)
+local_dict_path_wordforms = os.path.join(root_dir, 'data/wordforms.json')
+local_dict_path_tags = os.path.join(root_dir, 'data/tags.json')
+local_dict_path_edict = os.path.join(root_dir, 'data/edict')
 edict_files = ['part1.json', 'part2.json', 'part3.json', 'part4.json']
 # end ###
 

@@ -6,3 +6,4 @@ __pycache__/
 *$py.class
 package-lock.json
 node_modules/
+dict_helper-linux-x64/
