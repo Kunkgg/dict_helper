@@ -19,54 +19,48 @@ window.onload = function () {
 }
 
 function deal(word) {
+    let [expression, reading] = getExprAndReading(word);
     sendAllGlossary(word);
     sendOneGlossary(word);
-}
 
-function sendAllGlossary(word) {
-    let [expression, reading] = getExprAndReading(word);
-    let allGlossary = getAllGlossary(word);
-    let linkAll = word.querySelector('.link-all');
-    linkAll = linkAll.querySelector('a');
-    let note = makeNote(expression, reading, allGlossary);
-    linkAll.addEventListener('click', send);
-
-    function send(e) {
-        e = e || window.event;
-        e.preventDefault();
-        invoke(echo, 'addNote', params = note);
-
-        function echo(response) {
-            if (response["error"] == null) {
-                alert("Success!")
-            }
-        }
-    }
-}
-
-function sendOneGlossary(word) {
-    let [expression, reading] = getExprAndReading(word);
-    let linkOneList = word.querySelectorAll('.link-one');
-    for (let index = 0; index < linkOneList.length; index++) {
-        let linkOne = linkOneList[index];
-        let oneGlossary = getOneGlossary(linkOne);
-        let note = makeNote(expression, reading, oneGlossary);
-        linkOne = linkOne.querySelector('a');
-        linkOne.addEventListener('click', send);
+    function sendAllGlossary(word) {
+        let note = makeNote(expression, reading, getAllGlossary(word));
+        let linkAll = word.querySelector('.link-all a');
+        linkAll.addEventListener('click', send);
 
         function send(e) {
             e = e || window.event;
             e.preventDefault();
-            invoke(echo, 'addNote', params = note);
-
-            function echo(response) {
-                if (response["error"] == null) {
-                    alert("Success!")
-                }
-            }
+            invoke('addNote', params = note)
+                .then((response) => echo(response))
+                .catch((error => console.log(error)));
         }
     }
 
+    function sendOneGlossary(word) {
+        let linkOneList = word.querySelectorAll('.link-one');
+        for (let index = 0; index < linkOneList.length; index++) {
+            let linkOne = linkOneList[index];
+            let note = makeNote(expression, reading, getOneGlossary(linkOne));
+            linkOne = linkOne.querySelector('a');
+            linkOne.addEventListener('click', send);
+
+            function send(e) {
+                e = e || window.event;
+                e.preventDefault();
+                invoke('addNote', params = note)
+                    .then((response) => echo(response))
+                    .catch((error => console.log(error)));
+            }
+        }
+
+    }
+}
+
+function echo(response) {
+    if (response["error"] == null) {
+        alert("Success!")
+    }
 }
 
 function getExprAndReading(word) {
@@ -117,19 +111,38 @@ function makeNote(expression, reading, glossary) {
 }
 
 // Call AnkiConnect API
-function invoke(callback, action, params = {}, version = ANKICONNECT_VERSION) {
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open('POST', ANKICONNECTURL);
+function invoke(action, params = {}, version = ANKICONNECT_VERSION) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('error', () => reject('failed to issue request'));
+        xhr.addEventListener('load', () => {
+            try {
+                const response = xhr.response;
+                if (Object.getOwnPropertyNames(response).length != 2) {
+                    throw 'response has an unexpected number of fields';
+                }
+                if (!response.hasOwnProperty('error')) {
+                    throw 'response is missing required error field';
+                }
+                if (!response.hasOwnProperty('result')) {
+                    throw 'response is missing required result field';
+                }
+                if (response.error) {
+                    throw response.error;
+                }
+                resolve(response.result);
+            } catch (e) {
+                reject(e);
+            }
+        });
 
-    xhr.onload = function () {
-        callback(xhr.response)
-    }
-    query = {
-        "action": action,
-        "version": version,
-        "params": params
-    }
-    console.log(JSON.stringify(query));
-    xhr.send(JSON.stringify(query));
+        query = {
+            "action": action,
+            "version": version,
+            "params": params
+        }
+        xhr.open('POST', 'http://127.0.0.1:8765');
+        xhr.responseType = "json";
+        xhr.send(JSON.stringify(query));
+    });
 }
