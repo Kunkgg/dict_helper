@@ -177,10 +177,10 @@ def test():
 
 
 if __name__ == '__main__':
-    import argparse
-
-    parser = argparse.ArgumentParser()
+    from argparse import ArgumentParser, RawTextHelpFormatter
+    parser = ArgumentParser(description='dicthelper', formatter_class=RawTextHelpFormatter)
     parser.add_argument('--source', '-s',action='store', default='primary', type=str,
+                        choices=['primary', 'clipboard', 'clip'],
                         help='Specify get word method, from mouse selected or system clipboard\n'
                         'primary --> mouse selected\n'
                         'clipboard or clip --> system clipboard\n' 
