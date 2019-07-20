@@ -23,9 +23,12 @@
  - Build the electron GUI `./node_modules/electron-packager/bin/electron-packager.js .`
  - Edit `dis_file` path in `display.py`, the default value is: `dict_helper-linux-x64/resources/app/index.html`, it's used for linux-x64.
 Other system is different, you have to configure it manually
- - Edit the start script `dict_helper.sh`, according comments
- - Set a keyboard shortcut in system keyboard shortcuts setting
-    - command: `absolute/path/to/dict_helper.sh`
+ - Edit the start script `dicthelper_selected.sh` and `dicthelper_clip.sh`, according comments
+  - `dicthelper_selected.sh` is for word was selected by mouse on screen
+  - `dicthelper_clip.sh` is for word was copied in system clipboard
+ - Set keyboard shortcuts in system keyboard shortcuts setting for each run script
+    - command: `absolute/path/to/dicthelper_selected.sh`
+    - command: `absolute/path/to/dicthelper_clip.sh`
  -  To make sure AnkiConnect working, you have to launch Anki client first
  -  After above items are ready. Select one word anywhere by mouse, then push the keyboard shortcut
 
