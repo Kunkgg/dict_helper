@@ -26,9 +26,10 @@ local_dict_path_edict = os.path.join(root_dir, 'data/edict')
 edict_files = ['part1.json', 'part2.json', 'part3.json', 'part4.json']
 # end ###
 
-# command for getting the selected word on linux
-GET_WORD_COMMAND = 'xclip -selection primary -o'
+# command tamplate for getting word on linux
+GET_WORD_COMMAND = 'xclip -selection {} -o'
 
+# infomation of dictionary
 LOCAL_DICTIONARY = 'ENCN_Collins'
 ONLINE_DICTIONARY = 'YouDao'
 
@@ -47,13 +48,15 @@ YOUDAO_API = (
 Word = namedtuple('Word', ['expression', 'reading', 'glossary'])
 
 
-def get_selected_word():
-    """get selected word from screen
-    :return: selected_word
+def get_word(get_word_method):
+    """get word from mouse selected or copied in system clipboard
+      - 'primary' means getting word from mouse selected
+      - 'clipboard' means getting word from copied in system clipboard
+    :return: word which needs to be searched
     :rtype: str
     """
     word = subprocess.Popen(
-        GET_WORD_COMMAND,
+        GET_WORD_COMMAND.format(get_word_method),
         shell=True,
         stdout=subprocess.PIPE).stdout.read()
     word = word.decode('utf-8')
@@ -158,9 +161,9 @@ def search(word):
     return result
 
 
-def dicthelper():
+def dicthelper(get_word_method):
     """entry"""
-    word = get_selected_word()
+    word = get_word(get_word_method)
     if word:
         display(search(word), LOCAL_DICTIONARY, ONLINE_DICTIONARY)
 
@@ -174,5 +177,13 @@ def test():
 
 
 if __name__ == '__main__':
-    # test()
-    dicthelper()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--source', '-s',action='store', default='primary', type=str,
+                        help='Specify get word method, from mouse selected or system clipboard\n'
+                        'primary --> mouse selected\n'
+                        'clipboard or clip --> system clipboard\n' 
+                        '[default:primary]')
+    args = parser.parse_args()
+    dicthelper(get_word_method=args.source)

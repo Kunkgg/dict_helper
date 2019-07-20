@@ -1,0 +1,112 @@
+XCLIP(1)                                General Commands Manual                               XCLIP(1)
+
+NNAAMMEE
+       xclip - command line interface to X selections (clipboard)
+
+SSYYNNOOPPSSIISS
+       xxcclliipp [OPTION] [FILE]...
+
+DDEESSCCRRIIPPTTIIOONN
+       Reads  from standard in, or from one or more files, and makes the data available as an X selec‐
+       tion for pasting into X applications. Prints current X selection to standard out.
+
+       --ii, --iinn
+              read text into X selection from standard input or files (default)
+
+       --oo, --oouutt
+              print the selection to standard out (generally for piping to a file or program)
+
+       --ff, --ffiilltteerr
+              when xclip is invoked in the in mode with output level set to silent (the defaults), the
+              filter  option  will cause xclip to print the text piped to standard in back to standard
+              out unmodified
+
+       --ll, --llooooppss
+              number of X selection requests (pastes into X applications) to wait for before  exiting,
+              with  a  value  of 0 (default) causing xclip to wait for an unlimited number of requests
+              until another application (possibly another invocation of xclip) takes ownership of  the
+              selection
+
+       --tt, --ttaarrggeett
+              specify  a particular data format using the given target atom.  With --oo the special tar‐
+              get atom name "TARGETS" can be used to get a list of valid target atoms for this  selec‐
+              tion.  For more information about target atoms refer to ICCCM section 2.6.2
+
+       --dd, --ddiissppllaayy
+              X  display  to use (e.g. "localhost:0"), xclip defaults to the value in $DDIISSPPLLAAYY if this
+              option is omitted
+
+       --hh, --hheellpp
+              show quick summary of options
+
+       --sseelleeccttiioonn
+              specify which X selection to use, options are "primary"  to  use  XA_PRIMARY  (default),
+              "secondary" for XA_SECONDARY or "clipboard" for XA_CLIPBOARD
+
+       --vveerrssiioonn
+              show version information
+
+       --ssiilleenntt
+              fork  into  the  background  to  wait for requests, no informational output, errors only
+              (default)
+
+       --qquuiieett show informational messages on the terminal and run in the foreground
+
+       --vveerrbboossee
+              provide a running commentary of what xclip is doing
+
+       --nnoouuttff88
+              operate in legacy (i.e. non UTF-8) mode for backwards  compatibility  (Use  this  option
+              only when really necessary, as the old behavior was broken)
+
+       xclip  reads  text from standard in or files and makes it available to other X applications for
+       pasting as an X selection (traditionally with the middle mouse button). It reads from all files
+       specified,  or from standard in if no files are specified. xclip can also print the contents of
+       a selection to standard out with the --oo option.
+
+       xclip was designed to allow tighter integration of X applications and  command  line  programs.
+       The  default  action  is  to  silently wait in the background for X selection requests (pastes)
+       until another X application places data in the clipboard, at which point xclip exits  silently.
+       You  can  use the --vveerrbboossee option to see if and when xclip actually receives selection requests
+       from other X applications.
+
+       Options can be abbreviated as long as they remain unambiguous. For example, it is  possible  to
+       use  --dd  or --ddiisspp instead of --ddiissppllaayy. However, --vv couldn't be used because it is ambiguous (it
+       could be short for --vveerrbboossee or --vveerrssiioonn), so it would be interpreted as a filename.
+
+       Note that only the first character of the selection specified with  the  --sseelleeccttiioonn  option  is
+       important. This means that "p", "sec" and "clip" would have the same effect as using "primary",
+       "secondary" or "clipboard" respectively.
+
+EEXXAAMMPPLLEESS
+       I hate man pages without examples!
+
+       uuppttiimmee || xxcclliipp
+
+       Put your uptime in the X selection. Then middle click in an X application to paste.
+
+       xxcclliipp --llooooppss 1100 --vveerrbboossee //eettcc//mmoottdd
+
+       Exit after /etc/motd (message of the day) has been pasted 10 times.  Show  how  many  selection
+       requests (pastes) have been processed.
+
+       xxcclliipp --oo >> hheelllloowwoorrlldd..cc
+
+       Put the contents of the selection into a file.
+
+       xxcclliipp --tt tteexxtt//hhttmmll iinnddeexx..hhttmmll
+
+       Middle  click  in  an  X application supporting HTML to paste the contents of the given file as
+       HTML.
+
+EENNVVIIRROONNMMEENNTT
+       DDIISSPPLLAAYY
+              X display to use if none is specified with the --ddiissppllaayy option.
+
+RREEPPOORRTTIINNGG BBUUGGSS
+       Please report any bugs, problems, queries, experiences, etc. directly to the author.
+
+AAUUTTHHOORRSS
+       Kim Saunders <kims@debian.org> Peter Åstrand <astrand@lysator.liu.se>
+
+                                                                                              XCLIP(1)

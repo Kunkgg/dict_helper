@@ -53,7 +53,6 @@ function deal(word) {
                     .catch((error => console.log(error)));
             }
         }
-
     }
 }
 
