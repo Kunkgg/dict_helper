@@ -27,7 +27,7 @@ edict_files = ['part1.json', 'part2.json', 'part3.json', 'part4.json']
 # end ###
 
 # command tamplate for getting word on linux
-GET_WORD_COMMAND = 'xclip -selection {} -o'
+GET_WORD_COMMAND = 'xclip -selection {} -out'
 
 # infomation of dictionary
 LOCAL_DICTIONARY = 'ENCN_Collins'
